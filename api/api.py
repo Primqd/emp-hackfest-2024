@@ -1,4 +1,5 @@
 import time
+import requests
 from flask import Flask
 from waitress import serve
 import logging
@@ -15,8 +16,8 @@ def index():
 @app.route('/api/time')
 def get_current_time():
     return {'time' : time.time()}
-import requests
 
+@app.route('/api/asteroids')
 def get_asteroids(**kwargs):
     url = "https://api.nasa.gov/neo/rest/v1/feed?"
     for key, value in kwargs.items():
