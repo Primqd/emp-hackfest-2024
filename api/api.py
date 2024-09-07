@@ -18,12 +18,22 @@ def get_current_time():
     return {'time' : time.time()}
 
 @app.route('/api/asteroids')
-def get_asteroids(**kwargs):
+def get_asteroids(start_date = "2021-09-07", end_date = "2021-09-08", api_key = "DEMO_KEY"):
+    response = {asteroid_info:[]}
+    
     url = "https://api.nasa.gov/neo/rest/v1/feed?"
-    for key, value in kwargs.items():
-        url += f"{key}={value}&"
-    response = requests.get(url)
-    return response.json()
+    url += f"start_date={start_date}&end_date={end_date}&api_key={api_key}"
+    info = requests.get(url).json()
+    for asteroids in info['near_earth_objects'][start_date]:
+        asteroid_info={}
+        asteroid_info[asteroids['id']] = asteroids['id']
+        asteroid_info[asteroids['name']] = asteroids['name']
+        asteroid_info[asteroids['diameter']] = (asteroids['estimated_diameter']['meters']['estimated_diameter_min'] + asteroids['estimated_diameter']['meters']['estimated_diameter_max'])/2
+        asteroid_info[asteroids['hazardous']] = asteroids['is_potentially_hazardous_asteroid']
+        asteroid_info[asteroids['orbiting_body']] = asteroids['orbiting_body']
+        response[asteroid_info].append(asteroid_info)
+    return response
+    
 
 if __name__ == "__main__":
     serve(app, host = '127.0.0.1', port = 8085)
