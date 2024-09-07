@@ -3,7 +3,7 @@ table {
 }
 
 th {
-  width: 20%;
+  width: calc(100% / 6);
   border : 1px solid;
 }
 
@@ -12,7 +12,7 @@ th {
   background-color: #282c34;
   font-size : calc(10px + 2vmin);
   color : white;
-  padding : 12.5px 25px 25px 25px;
+  padding : 12.5px;
   text-align: center;
 }
 
