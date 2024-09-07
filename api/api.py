@@ -18,7 +18,7 @@ def get_current_time():
     return {'time' : time.time()}
 
 @app.route('/api/asteroids')
-def get_asteroids(start_date = "2021-09-07", end_date = "2021-09-08", api_key = "DEMO_KEY"):
+def get_asteroids(start_date = "2021-09-07", end_date = "2021-09-08", api_key = "CnR6bUincjYICWgqU9O9e0kE3yRpsYeMa1NWoW8F"):
     response = {asteroid_info:[]}
     
     url = "https://api.nasa.gov/neo/rest/v1/feed?"
