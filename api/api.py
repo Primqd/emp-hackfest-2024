@@ -26,11 +26,11 @@ def get_asteroids(start_date = "2021-09-07", end_date = "2021-09-08", api_key = 
     info = requests.get(url).json()
     for asteroids in info['near_earth_objects'][start_date]:
         asteroid_info={}
-        asteroid_info[asteroids['id']] = asteroids['id']
-        asteroid_info[asteroids['name']] = asteroids['name']
-        asteroid_info[asteroids['diameter']] = (asteroids['estimated_diameter']['meters']['estimated_diameter_min'] + asteroids['estimated_diameter']['meters']['estimated_diameter_max'])/2
-        asteroid_info[asteroids['hazardous']] = asteroids['is_potentially_hazardous_asteroid']
-        asteroid_info[asteroids['orbiting_body']] = asteroids['orbiting_body']
+        asteroid_info['id'] = asteroids['id']
+        asteroid_info['name'] = asteroids['name']
+        asteroid_info['diameter'] = (asteroids['estimated_diameter']['meters']['estimated_diameter_min'] + asteroids['estimated_diameter']['meters']['estimated_diameter_max'])/2
+        asteroid_info['hazardous'] = asteroids['is_potentially_hazardous_asteroid']
+        asteroid_info['orbiting_body'] = asteroids['orbiting_body']
         response[asteroid_info].append(asteroid_info)
     return response
     

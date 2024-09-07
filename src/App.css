@@ -25,6 +25,15 @@ th {
   color: white;
 }
 
+.element {
+  width: 300px;
+  height: 200px;
+  background-image: url('../earth.svg');
+  background-size: cover; /* Ensures the SVG covers the entire area */
+  background-position: center; /* Centers the SVG */
+  background-repeat: no-repeat; /* Prevents the SVG from repeating */
+}
+
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
