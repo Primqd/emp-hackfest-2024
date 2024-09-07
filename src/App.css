@@ -20,7 +20,7 @@ th {
   background-color: #282c34;
   /* min-height: 100vh; */
   display: flex;
-  padding : 25px 25px 12.5px 25px;
+  padding : 12.5px;
   font-size: calc(10px + 2vmin);
   color: white;
 }

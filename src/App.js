@@ -5,26 +5,28 @@ function App() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    // const fetchData = () => {
-    const data = fetch('/api/asteroids');
-    const json = data.json();
+    const fetchData = async () => {
+      const data = await fetch('/api/asteroids/2015-9-2/2015-9-5');
+      const json = await data.json();
 
-    setData(json);
-    // }
+      setData(json);
+    }
 
-    // fetchData();
+    fetchData();
+
+    // console.log(data);
     // fetch('/api/asteroids').then(res => res.json()).then(k => {
     //   setData(k);
     // });
   }, [])
 
 
-  console.log(data);
 
-  return (
+  try{ return (
     <>
       <header className = "Title">Franklin's EMP Hackfest 2024 Website</header>
       <table>
+        <tbody>
         <tr key = 'table-header'>
           <th>Name</th>
           <th>ID </th>
@@ -36,18 +38,22 @@ function App() {
         {
           data.asteroid_info.map((asteroid) => (
             <tr>
-              <th>{asteroid.name}</th>
-              <th>{asteroid.id}</th>
-              <th>{asteroid.diameter}</th>
-              <th>{asteroid.hazardous ? "true" : "false"}</th>
-              <th>{asteroid.orbiting_body}</th>
-              <th>{asteroid.close_approach}</th>
+              <th key = {asteroid.name}>{asteroid.name}</th>
+              <th key = {asteroid.id}>{asteroid.id}</th>
+              <th key = {asteroid.diameter}>{asteroid.diameter}</th>
+              <th key = {asteroid.hazardous}>{asteroid.hazardous ? "true" : "false"}</th>
+              <th key = {asteroid.orbiting_body}>{asteroid.orbiting_body}</th>
+              <th key = {asteroid.close_approach}>{asteroid.close_approach}</th>
             </tr>
           ))
         }
+        </tbody>
       </table>
     </>
   );
+  } catch(e) {
+    <h1>{e}</h1>
+  }
 }
 
 export default App;
