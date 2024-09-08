@@ -3,7 +3,7 @@ table {
 }
 
 th {
-  width: calc(100% / 6);
+  width: calc(100% / 7);
   border : 1px solid;
 }
 
@@ -14,6 +14,12 @@ th {
   color : white;
   padding : 12.5px;
   text-align: center;
+  display:inline-block;
+}
+
+.search-bar {
+  align-self: right;
+  display:inline-block;
 }
 
 .Title {

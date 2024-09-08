@@ -32,6 +32,7 @@ def get_asteroids(start_date = "2021-09-07", end_date = "2021-09-08", api_key = 
             asteroid_info['diameter'] = (asteroids['estimated_diameter']['meters']['estimated_diameter_min'] + asteroids['estimated_diameter']['meters']['estimated_diameter_max'])/2
             asteroid_info['hazardous'] = asteroids['is_potentially_hazardous_asteroid']
             asteroid_info['orbiting_body'] = asteroids["close_approach_data"][0]['orbiting_body']
+            asteroid_info['distance'] = asteroids["close_approach_data"][0]['miss_distance']['kilometers']
             asteroid_info['close_approach'] = asteroids["close_approach_data"][0]['close_approach_date']
             response["asteroid_info"].append(asteroid_info)
     return response
