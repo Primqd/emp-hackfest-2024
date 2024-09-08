@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Orbit from './orbit';
 
 async function fetchData(start, end) {
   if (!end){
@@ -38,7 +39,7 @@ function App() {
 
     const json = await fetchData(newSearchDate); // T1
 
-    console.log(`/api/asteroids/${newSearchDate}/${newSearchDate}`) //T2
+    // console.log(`/api/asteroids/${newSearchDate}/${newSearchDate}`) //T2
     
     setData(json);
     setLoading(false); // Set loading to false after data is fetched
@@ -49,7 +50,7 @@ function App() {
       setLoading(true); // Set loading to true before making API call
       
       const response = await fetch(`/api/asteroids/${today}/${today}`);
-      console.log(`/api/asteroids/${today}/${today}`)
+      // console.log(`/api/asteroids/${today}/${today}`)
       const json = await response.json();
       
       setData(json);
@@ -76,30 +77,7 @@ function App() {
       {loading ? (
         <p className = "loading">Loading data, please wait...</p> // Render this while loading
       ) : (
-        <table>
-          <tbody>
-            <tr key="table-header">
-              <th>Name</th>
-              <th>ID</th>
-              <th>Diameter (meters)</th>
-              <th>Hazardous</th>
-              <th>Orbiting Body</th>
-              <th>Distance to Earth (km)</th>
-              <th>Close Approach Date</th>
-            </tr>
-            {data.asteroid_info.map((asteroid) => (
-              <tr key={asteroid.id}>
-                <td>{asteroid.name}</td>
-                <td>{asteroid.id}</td>
-                <td>{asteroid.diameter}</td>
-                <td>{asteroid.hazardous ? 'true' : 'false'}</td>
-                <td>{asteroid.orbiting_body}</td>
-                <td>{asteroid.distance}</td>
-                <td>{asteroid.close_approach}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Orbit data = {data}/>
       )}
     </>
   );

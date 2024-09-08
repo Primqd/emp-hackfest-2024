@@ -13,17 +13,21 @@ td {
 
 .header {
   display: flex;
-  background-color: #282c34;
+  background-color: #60697a;
   justify-content: space-between;
 }
 
 .App {
-  background-color: #282c34;
+  background-color: #60697a;
   font-size : calc(10px + 2vmin);
   color : white;
   padding : 12.5px;
   text-align: center;
   display:inline-block;
+}
+
+.loading {
+  color : white;
 }
 
 .search-bar {
@@ -44,6 +48,10 @@ td {
   background-size: cover; /* Ensures the SVG covers the entire area */
   background-position: center; /* Centers the SVG */
   background-repeat: no-repeat; /* Prevents the SVG from repeating */
+}
+
+body {
+  background-color: black;
 }
 
 /* .App-logo {
