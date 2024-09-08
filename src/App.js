@@ -1,86 +1,108 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
+async function fetchData(start, end) {
+  if (!end){
+    end = start
+  }
+  const response = await fetch(`/api/asteroids/${start}/${end}`);
+  const json = await response.json();
+  return json;
+}
+
+
+
 function App() {
-  const [data, setData] = useState(null);
-  const [searchInput, setSearchInput] = useState("");
+  const [data, setData] = useState(null); // Holds asteroid data
+  const [searchInput, setSearchInput] = useState(""); // Holds search input
+  const [loading, setLoading] = useState(true); // Tracks loading state
+  const date = new Date();
+  const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
 
-  const handleKeyPress = async (e) => {
-    if(e.key == 'Enter') {
-      const data = await fetch(`/api/asteroids/${searchInput}/${searchInput}`);
-      const json = await data.json();
-
-      console.log(searchInput)
-      
-      setData(json);
+  const handleKeyPress = React.useCallback((e) => {
+    if (e.key === 'Enter') {
+      setLoading(true); // Set loading to true before making API call
+      const jsonPromise = fetchData(searchInput);
+      jsonPromise.then((json) => {
+        setData(json);
+        setLoading(false); // Set loading to false after data is fetched
+      })
     }
-  }
+    
+  }, [searchInput]);
 
-  const handleSearch = async (search) => {
-    // search.preventDefault();
-    setSearchInput(search.target.value);
+  const handleSearch = React.useCallback(async (search) => {
+    setLoading(true); // Set loading to true before making API call  T1
+    const newSearchDate = search.target.value
+    setSearchInput(newSearchDate);  // notify render next time to update search nput
 
-    console.log(searchInput);
+    const json = await fetchData(newSearchDate); // T1
 
-    const data = await fetch(`/api/asteroids/${searchInput}/${searchInput}`);
-    const json = await data.json();
-
+    console.log(`/api/asteroids/${newSearchDate}/${newSearchDate}`) //T2
+    
     setData(json);
-  }
+    setLoading(false); // Set loading to false after data is fetched
+  }, [searchInput]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch('/api/asteroids/2015-9-2/2015-9-2');
-      const json = await data.json();
-
+      setLoading(true); // Set loading to true before making API call
+      
+      const response = await fetch(`/api/asteroids/${today}/${today}`);
+      console.log(`/api/asteroids/${today}/${today}`)
+      const json = await response.json();
+      
       setData(json);
-    }
+      setLoading(false); // Set loading to false after data is fetched
+    };
 
     fetchData();
+  }, []);
 
-    // console.log(data);
-    // fetch('/api/asteroids').then(res => res.json()).then(k => {
-    //   setData(k);
-    // });
-  }, [])
-
-
-
-  try{ return (
+  return (
     <>
-      <header className = "Title">Franklin's EMP Hackfest 2024 Website</header>
-      <input className='search-bar' type='date' placeholder='2015-9-2' onChange={handleSearch} value ={searchInput} onKeyUp={handleKeyPress}></input>
-      <table>
-        <tbody>
-        <tr key = 'table-header'>
-          <th>Name</th>
-          <th>ID </th>
-          <th>Diameter (meters)</th>
-          <th>Hazardous </th>
-          <th>Orbiting Body </th>
-          <th>Distance to Earth (km)</th>
-          <th>Close Approach Date</th>
-        </tr>
-        {
-          data.asteroid_info.map((asteroid) => (
-            <tr>
-              <th key = {asteroid.name}>{asteroid.name}</th>
-              <th key = {asteroid.id}>{asteroid.id}</th>
-              <th key = {asteroid.diameter}>{asteroid.diameter}</th>
-              <th key = {asteroid.hazardous}>{asteroid.hazardous ? "true" : "false"}</th>
-              <th key = {asteroid.orbiting_body}>{asteroid.orbiting_body}</th>
-              <th key = {asteroid.distance}>{asteroid.distance}</th>
-              <th key = {asteroid.close_approach}>{asteroid.close_approach}</th>
+      <div className='header'>
+        <header className="Title">Asteroid Viewer by Franklin</header>
+        <input
+          className="search-bar"
+          type="date"
+          placeholder={today}
+          onChange={handleSearch}
+          value={searchInput}
+          onKeyUp={handleKeyPress}
+        />
+      </div>
+      
+      {loading ? (
+        <p className = "loading">Loading data, please wait...</p> // Render this while loading
+      ) : (
+        <table>
+          <tbody>
+            <tr key="table-header">
+              <th>Name</th>
+              <th>ID</th>
+              <th>Diameter (meters)</th>
+              <th>Hazardous</th>
+              <th>Orbiting Body</th>
+              <th>Distance to Earth (km)</th>
+              <th>Close Approach Date</th>
             </tr>
-          ))
-        }
-        </tbody>
-      </table>
+            {data.asteroid_info.map((asteroid) => (
+              <tr key={asteroid.id}>
+                <td>{asteroid.name}</td>
+                <td>{asteroid.id}</td>
+                <td>{asteroid.diameter}</td>
+                <td>{asteroid.hazardous ? 'true' : 'false'}</td>
+                <td>{asteroid.orbiting_body}</td>
+                <td>{asteroid.distance}</td>
+                <td>{asteroid.close_approach}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </>
   );
-  } catch(e) {
-    console.log(e)
-  }
 }
 
 export default App;
