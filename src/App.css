@@ -7,6 +7,15 @@ th {
   border : 1px solid;
 }
 
+td {
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  background-color: #282c34;
+  justify-content: space-between;
+}
 
 .App {
   background-color: #282c34;
@@ -18,14 +27,11 @@ th {
 }
 
 .search-bar {
-  align-self: right;
-  display:inline-block;
+  height : 50%;
+  margin-top : calc(2vmin);
 }
 
 .Title {
-  background-color: #282c34;
-  /* min-height: 100vh; */
-  display: flex;
   padding : 12.5px;
   font-size: calc(10px + 2vmin);
   color: white;
