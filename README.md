@@ -1,2 +1,2 @@
-# emp-hackfest-2024
-github repo for emp hackfest
+# Astros
+A simplistic and intuitive app for children to explore the frontier of space.
