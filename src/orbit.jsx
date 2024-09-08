@@ -37,8 +37,29 @@ const Orbit = ({
       };
     };
 
+    const addText = (x, y, dy, text) => {
+        svg
+        .append('text')
+        .attr('x', x)
+        .attr('y', y - dy) // Adjust so text appears above the clicked point
+        .attr('class', 'asteroid-info')
+        .attr('text-anchor', 'middle')
+        .style('font-size', '16px')
+        .style('fill', 'white')
+        .text(text);
+    }
+
     const handleClick = (d) => {
-        console.log(d);
+        const [x, y] = d3.pointer(d);
+
+        //remove existing text
+        svg.selectAll('text').remove();
+
+        // add new text
+        addText(x, y, 100, `Name: ${d.target.getAttribute('name')}`)
+        addText(x, y, 80, `Hazardous: ${d.target.getAttribute('hazardous')}`)
+        addText(x, y, 60, `Diameter: ${d.target.getAttribute('diameter')}m`)
+        addText(x, y, 40, `Distance: ${d.target.getAttribute('distance')}km`)
     }
     
     for(let i = 0; i < numAsteroids; ++i) {
@@ -48,6 +69,13 @@ const Orbit = ({
         .attr('class', 'asteroid')
         .attr('width', Math.max(20, 10 * Math.log(data_asteroids[i].diameter)))
         .attr('height', Math.max(20, 10 * Math.log(data_asteroids[i].diameter)))
+        .attr('id', data_asteroids[i].id)
+        .attr('name', data_asteroids[i].name)
+        .attr('diameter', data_asteroids[i].diameter)
+        .attr('hazardous', data_asteroids[i].hazardous)
+        .attr('orbiting_body', data_asteroids[i].orbiting_body)
+        .attr('distance', data_asteroids[i].distance)
+        .attr('close_approach', data_asteroids[i].close_approach)
         .on('click', handleClick)
         .attr(
             'x',
@@ -64,7 +92,7 @@ const Orbit = ({
     };
   }, []);
 
-  return <svg ref={svgRef} width={window.innerWidth - 25} height={window.innerHeight - 25}></svg>;
+  return <svg ref={svgRef} width={window.innerWidth} height={window.innerHeight}></svg>;
 };
 
 export default Orbit;
